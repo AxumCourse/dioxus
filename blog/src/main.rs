@@ -29,17 +29,15 @@ pub struct Post {
 #[component]
 fn BlogPost() -> Element {
     let mut post = use_resource(|| async move {
-        let resp = reqwest::get("https://jsonplaceholder.typicode.com/posts/1")
+        reqwest::get("https://jsonplaceholder.typicode.com/posts/1")
             .await
             .unwrap()
             .json::<Post>()
             .await
-            .unwrap();
-        resp
     });
 
     match &*post.read_unchecked() {
-        Some(p) => rsx! {
+        Some(Ok(p)) => rsx! {
             div { "ID: {p.id}" }
             div { "标题：{p.title}" }
             button {
@@ -48,7 +46,9 @@ fn BlogPost() -> Element {
                 "获取数据"
             }
         },
-
+        Some(Err(e)) => rsx! {
+            div { "Error: {e}" }
+        },
         None => rsx! {
             div { "Loading..." }
         },
