@@ -45,5 +45,11 @@ fn About() -> Element {
 fn Detail(id: i32) -> Element {
     rsx! {
         div { class: "text-cyan-600 text-xl", "#{id} 的详情" }
+
+        ul {
+            li {
+                Link { to: Route::Home {}, "首页" }
+            }
+        }
     }
 }
