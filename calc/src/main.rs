@@ -13,6 +13,16 @@ fn App() -> Element {
         document::Link { rel: "icon", href: FAVICON }
         document::Link { rel: "stylesheet", href: MAIN_CSS }
 
-        div { "Hello, 世界" }
+        Hello { name: "AXUM中文网".to_string() }
+    }
+}
+
+#[derive(Props, Clone, PartialEq)]
+struct HelloProps {
+    name: String,
+}
+fn Hello(props: HelloProps) -> Element {
+    rsx! {
+        div { "Hello, {props.name}" }
     }
 }
