@@ -19,11 +19,12 @@ fn App() -> Element {
 
 #[component]
 fn CalcView() -> Element {
+    let plus_handler = move |_event| {};
     rsx! {
         div { "当前计数：123" }
         div {
             button { "-1" }
-            button { "+1" }
+            button { onclick: plus_handler, "+1" }
         }
     }
 }
