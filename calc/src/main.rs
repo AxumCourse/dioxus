@@ -13,16 +13,17 @@ fn App() -> Element {
         document::Link { rel: "icon", href: FAVICON }
         document::Link { rel: "stylesheet", href: MAIN_CSS }
 
-        Hello { name: "AXUM中文网".to_string() }
+        CalcView {}
     }
 }
 
-#[derive(Props, Clone, PartialEq)]
-struct HelloProps {
-    name: String,
-}
-fn Hello(props: HelloProps) -> Element {
+#[component]
+fn CalcView() -> Element {
     rsx! {
-        div { "Hello, {props.name}" }
+        div { "当前计数：123" }
+        div {
+            button { "-1" }
+            button { "+1" }
+        }
     }
 }
