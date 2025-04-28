@@ -1,5 +1,3 @@
-use std::rc::Rc;
-
 use dioxus::prelude::*;
 
 const FAVICON: Asset = asset!("/assets/favicon.ico");
@@ -37,11 +35,11 @@ fn BlogPost() -> Element {
             .json::<Post>()
             .await
             .unwrap();
-        Rc::new(resp)
+        resp
     });
 
-    if let Some(p) = post.cloned() {
-        rsx! {
+    match &*post.read_unchecked() {
+        Some(p) => rsx! {
             div { "ID: {p.id}" }
             div { "标题：{p.title}" }
             button {
@@ -49,10 +47,10 @@ fn BlogPost() -> Element {
                 onclick: move |_| post.restart(),
                 "获取数据"
             }
-        }
-    } else {
-        rsx! {
+        },
+
+        None => rsx! {
             div { "Loading..." }
-        }
+        },
     }
 }
