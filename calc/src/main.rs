@@ -1,4 +1,4 @@
-use dioxus::prelude::*;
+use dioxus::{logger::tracing::info, prelude::*};
 
 const FAVICON: Asset = asset!("/assets/favicon.ico");
 const MAIN_CSS: Asset = asset!("/assets/main.css");
@@ -19,7 +19,7 @@ fn App() -> Element {
 
 #[component]
 fn CalcView() -> Element {
-    let plus_handler = move |_event| {};
+    let plus_handler = move |e| info!("click {e:?}");
     rsx! {
         div { "当前计数：123" }
         div {
