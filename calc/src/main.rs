@@ -19,9 +19,10 @@ fn App() -> Element {
 
 #[component]
 fn CalcView() -> Element {
+    let count = use_hook(|| 0);
     let plus_handler = move |e| info!("click {e:?}");
     rsx! {
-        div { "当前计数：123" }
+        div { "当前计数：{count}" }
         div {
             button { "-1" }
             button { onclick: plus_handler, "+1" }
