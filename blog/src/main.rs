@@ -13,6 +13,8 @@ enum Route {
     Home {},
     #[route("/about")]
     About {},
+    #[route("/detail/:id")]
+    Detail { id: i32 },
 }
 
 #[component]
@@ -36,5 +38,12 @@ fn Home() -> Element {
 fn About() -> Element {
     rsx! {
         div { class: "text-blue-600 text-xl", "关于" }
+    }
+}
+
+#[component]
+fn Detail(id: i32) -> Element {
+    rsx! {
+        div { class: "text-cyan-600 text-xl", "#{id} 的详情" }
     }
 }
