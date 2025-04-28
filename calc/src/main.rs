@@ -1,4 +1,4 @@
-use dioxus::{logger::tracing::info, prelude::*};
+use dioxus::prelude::*;
 
 const FAVICON: Asset = asset!("/assets/favicon.ico");
 const MAIN_CSS: Asset = asset!("/assets/main.css");
@@ -19,8 +19,8 @@ fn App() -> Element {
 
 #[component]
 fn CalcView() -> Element {
-    let count = use_hook(|| 0);
-    let plus_handler = move |e| info!("click {e:?}");
+    let mut count = use_hook(|| 0);
+    let plus_handler = move |_| count = count + 1;
     rsx! {
         div { "当前计数：{count}" }
         div {
