@@ -30,30 +30,29 @@ pub struct Post {
 
 #[component]
 fn BlogPost() -> Element {
-    let mut post = use_signal(|| None::<Rc<Post>>);
-
-    let fetch_post = move |_| async move {
+    let mut post = use_resource(|| async move {
         let resp = reqwest::get("https://jsonplaceholder.typicode.com/posts/1")
             .await
             .unwrap()
             .json::<Post>()
             .await
             .unwrap();
-        post.set(Some(Rc::new(resp)));
-    };
+        Rc::new(resp)
+    });
 
-    if let Some(post) = post.cloned() {
+    if let Some(p) = post.cloned() {
         rsx! {
-            div { "ID: {post.id}" }
-            div { "标题：{post.title}" }
+            div { "ID: {p.id}" }
+            div { "标题：{p.title}" }
+            button {
+                class: "px-3 py-1 bg-gray-600 text-white",
+                onclick: move |_| post.restart(),
+                "获取数据"
+            }
         }
     } else {
         rsx! {
-            button {
-                class: "px-3 py-1 bg-gray-600 text-white",
-                onclick: fetch_post,
-                "获取数据"
-            }
+            div { "Loading..." }
         }
     }
 }
