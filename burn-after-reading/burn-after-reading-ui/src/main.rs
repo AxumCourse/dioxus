@@ -1,4 +1,4 @@
-use dioxus::{html::div, prelude::*};
+use dioxus::prelude::*;
 
 const FAVICON: Asset = asset!("/assets/favicon.ico");
 const MAIN_CSS: Asset = asset!("/assets/main.css");
@@ -19,17 +19,30 @@ fn App() -> Element {
 
 #[component]
 fn Form() -> Element {
-    let mut name = use_signal(|| "".to_string());
+    let city_list = vec![
+        ("gz".to_string(), "广州".to_string()),
+        ("sh".to_string(), "上海".to_string()),
+        ("sz".to_string(), "深圳".to_string()),
+    ];
+    let mut city_code = use_signal(|| "gz".to_string());
 
     rsx!(
-        input { value: "{name}", oninput: move |e| name.set(e.value()) }
-
         div {
-            if name.read().is_empty() {
-                "请输入你的名字"
-            } else {
-                "你的名字是：{name}"
+            label { "城市：" }
+            select {
+                value: "{city_code}",
+                onchange: move |e| {
+                    city_code.set(e.value());
+                },
+
+                for (code , name) in city_list {
+                    option { value: "{code}", "{name}" }
+                }
             }
         }
+
+
+
+        div { "你选择的城市：{city_code}" }
     )
 }
