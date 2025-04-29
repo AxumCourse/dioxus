@@ -3,7 +3,7 @@
 [web.app]
 
 # HTML title tag content
-title = "burn-after-reading-ui"
+title = "阅后即焚"
 
 # include `assets` in web platform
 [web.resource]

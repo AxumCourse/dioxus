@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@layer base {
+  * {
+    @apply font-light;
+  }
+  body {
+    @apply bg-gray-200 min-h-svh text-gray-900;
+  }
+  button {
+    @apply cursor-pointer;
+  }
+}
+
+@layer components {
+  .axum-container {
+    @apply container mx-auto px-3 lg:px-0;
+  }
+}
