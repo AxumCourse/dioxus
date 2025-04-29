@@ -23,10 +23,13 @@ fn Form() -> Element {
 
     rsx!(
         input { value: "{name}", oninput: move |e| name.set(e.value()) }
-        if name.read().is_empty() {
-            div { "请输入你的名字" }
-        } else {
-            div { "你的名字是：{name}" }
+
+        div {
+            if name.read().is_empty() {
+                "请输入你的名字"
+            } else {
+                "你的名字是：{name}"
+            }
         }
     )
 }
