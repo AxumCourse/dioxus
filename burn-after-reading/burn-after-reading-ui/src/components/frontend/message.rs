@@ -1,6 +1,6 @@
 use crate::router::Route;
 use dioxus::prelude::*;
-use lucide_dioxus::CircleCheck as SuccessIcon;
+use lucide_dioxus::{CircleCheck as SuccessIcon, Key as PasswordIcon};
 
 const LOGO: Asset = asset!("/assets/logo.png");
 
@@ -8,40 +8,40 @@ const LOGO: Asset = asset!("/assets/logo.png");
 pub fn Layout() -> Element {
     rsx! {
         header { class: "axum-container flex items-center gap-x-8 py-6",
-            Link { class: "flex items-center gap-x-2", to: Route::FrontIndex {},
+            a { class: "flex items-center gap-x-2", href: "/",
                 img { src: LOGO, class: "w-10 object-convert" }
                 h2 { class: "text-2xl font-normal", "阅后即焚" }
             }
         }
-        main { Outlet::<Route> {} }
+        main { class: "axum-container my-6 bg-gray-50/70 p-6 space-y-4", Outlet::<Route> {} }
     }
 }
 
 #[component]
 pub fn Create() -> Element {
     rsx! {
-        div { class: "axum-container my-6 bg-gray-50/70 p-6 space-y-4",
-            div { class: " ",
-                textarea {
-                    class: "w-full ring-1 ring-sky-300 ring-inset focus:ring-sky-500 min-h-96 outline-0 px-3 py-1.5 rounded-md bg-white",
-                    placeholder: "在此输入你要发送的信息",
+        div { class: " ",
+            textarea {
+                class: "w-full ring-1 ring-sky-300 ring-inset focus:ring-sky-500 min-h-96 outline-0 px-3 py-1.5 rounded-md bg-white",
+                placeholder: "在此输入你要发送的信息",
+            }
+        }
+        div { class: "flex flex-col items-start gap-y-2 lg:items-center lg:justify-between lg:flex-row lg:gap-y-0",
+            label { class: "grow shrink-0",
+                "密码："
+                input {
+                    class: "ring-1 ring-gray-300 ring-inset focus:ring-gray-500  outline-0 px-3 py-1.5 rounded-md bg-white",
+                    placeholder: "如不需要密码，请留空",
                 }
             }
-            div { class: "flex flex-col items-start gap-y-2 lg:items-center lg:justify-between lg:flex-row lg:gap-y-0",
-                label { class: "grow shrink-0",
-                    "密码："
-                    input {
-                        class: "ring-1 ring-gray-300 ring-inset focus:ring-gray-500  outline-0 px-3 py-1.5 rounded-md bg-white",
-                        placeholder: "如不需要密码，请留空",
-                    }
-                }
-                div { class: " shrink-0",
-                    button { class: "px-3 py-1.5 bg-gray-900 text-white rounded hover:bg-gray-800",
-                        "创建信息"
-                    }
+            div { class: " shrink-0",
+                button { class: "px-3 py-1.5 bg-gray-900 text-white rounded hover:bg-gray-800",
+                    "创建信息"
                 }
             }
         }
+
+        CreateSuccess { id: String::from("1234") }
     }
 }
 
@@ -79,5 +79,38 @@ pub fn CreateSuccess(id: String) -> Element {
 
 #[component]
 pub fn View(id: String) -> Element {
-    rsx! {}
+    rsx! {
+        pre { class: "font-sans", "asdfasdfasfd\naaa<a href=aaa>ddd</a>" }
+
+        PasswordDialogForView { id: String::new() }
+    }
+}
+#[component]
+pub fn PasswordDialogForView(id: String) -> Element {
+    rsx! {
+        div { class: "fixed inset-0 z-[10] bg-gray-100",
+            div { class: "absolute w-11/12 lg:w-auto left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded p-6 space-y-4 border border-gray-200 shadow-md",
+                div { class: "flex items-center gap-x-2",
+                    div { class: "shrink-0",
+                        PasswordIcon { size: 20 }
+                    }
+                    div { class: "lg:text-lg grow", "该消息需要密码：" }
+                }
+                div { class: "",
+                    input {
+                        value: "",
+                        r#type: "password",
+                        placeholder: "请输入访问密码",
+                        class: "font-mono outline-0 ring-1 ring-inset rounded px-3 py-1.5 ring-gray-300 w-full",
+                    }
+                }
+
+                div { class: "flex justify-end",
+                    button { class: "px-3 py-1.5 bg-gray-900 text-white rounded hover:bg-gray-800 text-sm",
+                        "提交"
+                    }
+                }
+            }
+        }
+    }
 }
