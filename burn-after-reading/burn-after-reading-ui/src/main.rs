@@ -7,16 +7,11 @@ fn main() {
     dioxus::launch(App);
 }
 
-// 全局共享状态包装器
-#[derive(Clone, Copy)]
-struct ColorState(Signal<String>);
+// 声明一个全局信号
+static COLOR: GlobalSignal<String> = Signal::global(|| "Red".to_string());
 
 #[component]
 fn App() -> Element {
-    let color = use_signal(|| "Red".to_string());
-    // 全局状态提供者
-    use_context_provider(|| ColorState(color));
-
     rsx! {
         document::Link { rel: "icon", href: FAVICON }
         document::Link { rel: "stylesheet", href: MAIN_CSS }
@@ -27,11 +22,11 @@ fn App() -> Element {
 
 #[component]
 fn FavColor() -> Element {
-    // 从上下文中消费全局状态
-    let color = use_context::<ColorState>();
-
+    // 可以直接在组件中读取全局信号的值
+    dioxus::logger::tracing::info!("当前颜色：{}", COLOR);
     rsx!(
-        h1 { "你喜欢的颜色：{color.0}" }
+        // 可以直接在 rsx 中读取全局信号的值
+        h1 { "你喜欢的颜色：{COLOR}" }
         ChangeFavColor {}
     )
 }
@@ -39,8 +34,8 @@ fn FavColor() -> Element {
 #[component]
 fn ChangeFavColor() -> Element {
     // 修改全局状态
-    let handle_change_color = move |_| consume_context::<ColorState>().0.set("Blue".into());
+    let handle_change_color = move |_| *COLOR.write() = "Green".into();
     rsx!(
-        button { onclick: handle_change_color, "蓝色" }
+        button { onclick: handle_change_color, "绿色" }
     )
 }
