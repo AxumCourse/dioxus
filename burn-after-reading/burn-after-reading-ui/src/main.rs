@@ -7,8 +7,19 @@ fn main() {
     dioxus::launch(App);
 }
 
-// 声明一个全局信号
-static COLOR: GlobalSignal<String> = Signal::global(|| "Red".to_string());
+#[derive(Routable, Clone)]
+#[rustfmt::skip]
+enum Route {
+    #[nest("/blog")]
+        #[route("/")]
+        BlogList {},
+        #[route("/:id")]
+        BlogDetail { id: u32 },
+    #[end_nest]
+    
+    #[route("/")]
+    Home {},
+}
 
 #[component]
 fn App() -> Element {
@@ -16,26 +27,26 @@ fn App() -> Element {
         document::Link { rel: "icon", href: FAVICON }
         document::Link { rel: "stylesheet", href: MAIN_CSS }
 
-        FavColor {}
+        Router::<Route> {}
     }
 }
 
 #[component]
-fn FavColor() -> Element {
-    // 可以直接在组件中读取全局信号的值
-    dioxus::logger::tracing::info!("当前颜色：{}", COLOR);
+fn Home() -> Element {
     rsx!(
-        // 可以直接在 rsx 中读取全局信号的值
-        h1 { "你喜欢的颜色：{COLOR}" }
-        ChangeFavColor {}
+        div { "home" }
     )
 }
 
 #[component]
-fn ChangeFavColor() -> Element {
-    // 修改全局状态
-    let handle_change_color = move |_| *COLOR.write() = "Green".into();
-    rsx!(
-        button { onclick: handle_change_color, "绿色" }
-    )
+fn BlogList() -> Element {
+    rsx! {
+        div { "blog list" }
+    }
+}
+#[component]
+fn BlogDetail(id: u32) -> Element {
+    rsx! {
+        div { "blog detail #{id}" }
+    }
 }
