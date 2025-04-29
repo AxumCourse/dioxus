@@ -11,12 +11,14 @@ fn main() {
 #[rustfmt::skip]
 enum Route {
     #[nest("/blog")]
-        #[route("/")]
-        BlogList {},
-        #[route("/:id")]
-        BlogDetail { id: u32 },
+        #[layout(BlogLayout)]
+            #[route("/")]
+            BlogList {},
+            #[route("/:id")]
+            BlogDetail { id: u32 },
+        #[end_layout]
     #[end_nest]
-    
+
     #[route("/")]
     Home {},
 }
@@ -41,12 +43,34 @@ fn Home() -> Element {
 #[component]
 fn BlogList() -> Element {
     rsx! {
-        div { "blog list" }
+        ol {
+            for i in 0..10 {
+                li {
+                    Link { to: Route::BlogDetail { id: i }, "blog #{i}" }
+                }
+            }
+        }
     }
 }
 #[component]
 fn BlogDetail(id: u32) -> Element {
     rsx! {
         div { "blog detail #{id}" }
+    }
+}
+
+#[component]
+fn BlogLayout() -> Element {
+    rsx! {
+        h1 { "Blog" }
+        ul {
+            li {
+                Link { to: Route::Home {}, "首页" }
+            }
+            li {
+                Link { to: Route::BlogList {}, "博客列表" }
+            }
+        }
+        Outlet::<Route> {}
     }
 }
