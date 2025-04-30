@@ -8,6 +8,7 @@ pub struct Config {
     pub database_max_conns: u32,
     pub web_addr: String,
     pub delete_interval: u32,
+    pub view_url_prefix: String,
 }
 
 impl Config {

@@ -6,16 +6,27 @@ use validator::Validate;
 
 use crate::{db, form, model, resp, util, ArcAppState, Result};
 
+#[derive(serde::Serialize)]
+pub struct CreateMessageResp {
+    pub id: String,
+    pub url: String,
+}
+
 pub async fn create_message(
     State(state): State<ArcAppState>,
     Json(message): Json<form::message::Create>,
-) -> Result<resp::JsonResp<resp::IdResp>> {
+) -> Result<resp::JsonResp<CreateMessageResp>> {
     message.validate()?;
 
     let message = model::Message::build(message.content, message.password)?;
     let id = db::message::create(&state.pool, &message).await?;
+    let url = format!("{}/{}", &state.cfg.view_url_prefix, id);
 
-    Ok(resp::id_resp(id).to_json())
+    Ok(resp::ok(CreateMessageResp {
+        id: id.to_string(),
+        url,
+    })
+    .to_json())
 }
 
 #[derive(serde::Serialize)]

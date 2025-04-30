@@ -21,7 +21,7 @@ POST http://127.0.0.1:9527/message/view
 Content-Type: application/json
 
 {
-    "id":"d08bmj4drfailna19uog"
+    "id":"d08slr4drfaui51t4srg"
 }
 
 

@@ -4,6 +4,7 @@ use axum::{routing::post, Router};
 use burn_after_reading::{config::Config, frontend, AppState};
 use sqlx::postgres::PgPoolOptions;
 use tokio::net::TcpListener;
+use tower_http::cors::{Any, CorsLayer};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 #[tokio::main]
@@ -35,6 +36,12 @@ async fn main() {
     let app = Router::new()
         .route("/message", post(frontend::create_message))
         .route("/message/view", post(frontend::read_message))
+        .layer(
+            CorsLayer::new()
+                .allow_headers(Any)
+                .allow_methods(Any)
+                .allow_origin(Any),
+        )
         .with_state(state);
 
     tracing::info!("Listening on {}", listener.local_addr().unwrap());
