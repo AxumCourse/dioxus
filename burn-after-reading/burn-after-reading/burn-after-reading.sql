@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS "messages" (
+    "id" CHAR(20) PRIMARY KEY,
+    "content" VARCHAR NOT NULL DEFAULT '',
+    "password" VARCHAR(72) NOT NULL DEFAULT '',
+    "dateline" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS "admins" (
+    "id" CHAR(20) PRIMARY KEY ,
+    "username" VARCHAR(50) NOT NULL,
+    "password" VARCHAR(72) NOT NULL,
+    UNIQUE("username")
+);

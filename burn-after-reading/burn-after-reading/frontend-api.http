@@ -1,0 +1,60 @@
+## 创建消息
+POST http://127.0.0.1:9527/message
+Content-Type: application/json
+
+{
+    "content":"Hello, 世界",
+    "password":""
+}
+
+## 创建带密码的消息
+POST http://127.0.0.1:9527/message
+Content-Type: application/json
+
+{
+    "content":"你好，World",
+    "password":"foobar"
+}
+
+## 访问无密码消息
+POST http://127.0.0.1:9527/message/view
+Content-Type: application/json
+
+{
+    "id":"d08bmj4drfailna19uog"
+}
+
+
+## 访问带密码消息，但未提供密码
+POST http://127.0.0.1:9527/message/view
+Content-Type: application/json
+
+{
+    "id":"d08c82sdrfatpb5ium90"
+}
+
+## 访问带密码消息，提供错误密码
+POST http://127.0.0.1:9527/message/view
+Content-Type: application/json
+
+{
+    "id":"d08c82sdrfatpb5ium90",
+    "password":"barfoo"
+}
+
+## 访问带密码消息，提供正确密码
+POST http://127.0.0.1:9527/message/view
+Content-Type: application/json
+
+{
+    "id":"d08c82sdrfatpb5ium90",
+    "password":"foobar"
+}
+
+## 访问不存在的消息
+POST http://127.0.0.1:9527/message/view
+Content-Type: application/json
+
+{
+    "id":"d08bm6sdrfailna19123"
+}

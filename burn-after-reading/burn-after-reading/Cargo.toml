@@ -1,0 +1,19 @@
+[package]
+name = "burn-after-reading"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.98"
+axum = "0.8.3"
+bcrypt = "0.17.0"
+chrono = { version = "0.4.40", features = ["serde"] }
+config = "0.15.11"
+dotenv = "0.15.0"
+serde = { version = "1.0.219", features = ["derive"] }
+sqlx = { version = "0.8.5", features = ["postgres", "chrono", "runtime-tokio"] }
+tokio = { version = "1.44.2", features = ["full"] }
+tracing = "0.1.41"
+tracing-subscriber = { version = "0.3.19", features = ["env-filter"] }
+validator = { version = "0.20.0", features = ["derive"] }
+xid = "1.1.1"
