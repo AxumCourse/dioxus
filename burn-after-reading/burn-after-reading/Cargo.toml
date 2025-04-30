@@ -1,7 +1,13 @@
 [package]
 name = "burn-after-reading"
 version = "0.1.0"
+authors = ["axumrs <team@axum.eu.org>"]
 edition = "2021"
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/AxumCourse/dioxus"
+homepage = "https://axum.eu.org/subject/dioxus"
+description = "AXUM中文网专题：使用 axum 和 dioxus 构建全栈 Web 应用"
 
 [dependencies]
 anyhow = "1.0.98"
