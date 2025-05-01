@@ -1,0 +1,13 @@
+[package]
+name = "dx-ssr"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.98"
+axum = "0.8.4"
+dioxus = "0.6.3"
+dioxus-ssr = "0.6.2"
+reqwest = { version = "0.12.15", features = ["json"] }
+serde = { version = "1.0.219", features = ["derive"] }
+tokio = { version = "1.44.2", features = ["full"] }
